@@ -38,42 +38,46 @@ class Form extends React.Component {
             onChange={ onInputChange }
           />
         </label>
-        <label htmlFor="attr-1">
+        <label htmlFor="attr1">
           Atributo 1
           <input
-            id="attr-1"
+            id="attr1"
             type="number"
             data-testid="attr1-input"
             value={ cardAttr1 }
             onChange={ onInputChange }
           />
         </label>
-        <label htmlFor="attr-2">
+        <label htmlFor="attr2">
           Atributo 2
           <input
-            id="attr-2"
+            id="attr2"
             type="number"
             data-testid="attr2-input"
             value={ cardAttr2 }
             onChange={ onInputChange }
           />
         </label>
-        <label htmlFor="attr-3">
+        <label htmlFor="attr3">
           Atributo 3
           <input
-            id="attr-3"
+            id="attr3"
             type="number"
             data-testid="attr3-input"
             value={ cardAttr3 }
             onChange={ onInputChange }
           />
         </label>
-        <input
-          type="text"
-          data-testid="image-input"
-          value={ cardImage }
-          onChange={ onInputChange }
-        />
+        <label htmlFor="image">
+          Imagem
+          <input
+            id="image"
+            type="text"
+            data-testid="image-input"
+            value={ cardImage }
+            onChange={ onInputChange }
+          />
+        </label>
         <label htmlFor="rarity">
           Raridade
           <select
