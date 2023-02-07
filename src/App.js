@@ -14,6 +14,7 @@ class App extends React.Component {
       cardImage: '',
       cardRare: 'normal',
       cardTrunfo: false,
+      isSaveButtonDisabled: true,
     };
   }
 
@@ -21,10 +22,49 @@ class App extends React.Component {
     const { name, value } = event.target;
     this.setState({
       [name]: value,
+    }, () => {
+      this.setState({ isSaveButtonDisabled: this.validateFields() });
     });
-  };
 
-  render() {
+    //   if (cardAttr1 + cardAttr2 + cardAttr3 > 210) {
+    //     this.setState({ isSaveButtonDisabled: true });
+    //   }
+    //   if (cardAttr1 || cardAttr2 || cardAttr3 > 90) {
+    //     this.setState({ isSaveButtonDisabled: true });
+    //   }
+    //   if (cardAttr1 || cardAttr2 || cardAttr3 < 0) {
+    //     this.setState({ isSaveButtonDisabled: true });
+    //   }
+    // };
+
+    validateFields = () => {
+      const {
+        cardName,
+        cardDescription,
+        cardAttr1,
+        cardAttr2,
+        cardAttr3,
+        cardImage,
+      // cardRare,
+      } = this.state;
+
+      const validName = cardName.length > 0;
+      const validDescription = cardDescription.length > 0;
+      const validImage = cardImage.length > 0;
+      const individualMax = 90;
+      const validAttr1 = Number(cardAttr1) <= individualMax;
+      const validAttr2 = Number(cardAttr2) <= individualMax;
+      const validAttr3 = Number(cardAttr3) <= individualMax;
+      const validAttribute = validAttr1 && validAttr2 && validAttr3;
+      const sum = Number(cardAttr1) + Number(cardAttr2) + Number(cardAttr3);
+      const totalNumber = 210;
+      const validNumber = sum <= totalNumber;
+      const nameDescImage = validName && validDescription && validImage;
+      const allFields = nameDescImage && validAttribute && validNumber;
+      return !allFields;
+    };
+
+    render();
     const {
       cardName,
       cardDescription,
@@ -34,11 +74,15 @@ class App extends React.Component {
       cardImage,
       cardRare,
       cardTrunfo,
+      isSaveButtonDisabled,
     } = this.state;
     return (
       <div>
         <h1>Tryunfo</h1>
-        <Form onInputChange={ this.onInputChange } />
+        <Form
+          onInputChange={ this.onInputChange }
+          isSaveButtonDisabled={ isSaveButtonDisabled }
+        />
         <Card
           cardName={ cardName }
           cardDescription={ cardDescription }
@@ -51,7 +95,7 @@ class App extends React.Component {
         />
       </div>
     );
-  }
+  };
 }
 
 export default App;
