@@ -15,12 +15,13 @@ class App extends React.Component {
       cardRare: 'normal',
       cardTrunfo: false,
       isSaveButtonDisabled: true,
-      savedCards: [],
+      // savedCards: [],
     };
   }
 
-  onInputChange = (event) => {
-    const { name, value } = event.target;
+  onInputChange = ({ target }) => {
+    const { name } = target;
+    const value = target.type === 'checkbox' ? target.checked : target.value;
     this.setState({
       [name]: value,
     }, () => {
@@ -36,28 +37,32 @@ class App extends React.Component {
       cardAttr2,
       cardAttr3,
       cardImage,
-      // cardRare,
     } = this.state;
 
     const validName = cardName.length > 0;
     const validDescription = cardDescription.length > 0;
     const validImage = cardImage.length > 0;
-    const validAttr1 = Number(cardAttr1) <= 90;
-    const validAttr2 = Number(cardAttr2) <= 90;
-    const validAttr3 = Number(cardAttr3) <= 90;
+    const maxAttribute = 90;
+    const validAttr1 = Number(cardAttr1) <= maxAttribute;
+    const validAttr2 = Number(cardAttr2) <= maxAttribute;
+    const validAttr3 = Number(cardAttr3) <= maxAttribute;
     const validAttribute = validAttr1 && validAttr2 && validAttr3;
+    const zeroAttr1 = Number(cardAttr1) >= 0;
+    const zeroAttr2 = Number(cardAttr2) >= 0;
+    const zeroAttr3 = Number(cardAttr3) >= 0;
+    const zeroAttr = zeroAttr1 && zeroAttr2 && zeroAttr3;
     const sum = Number(cardAttr1) + Number(cardAttr2) + Number(cardAttr3);
     const maxNumber = 210;
     const validNumber = sum <= maxNumber;
     const nameDescImg = validName && validDescription && validImage;
-    const numbers = validAttribute && validNumber;
+    const numbers = validAttribute && validNumber && zeroAttr;
     const allFields = nameDescImg && numbers;
     return !allFields;
   };
 
-  saveButton = (event) => {
-    const { name, value } = event.target;
-  }
+  // saveButton = (event) => {
+  //   const { name, value } = event.target;
+  // };
 
   render() {
     const {
