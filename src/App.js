@@ -14,11 +14,13 @@ class App extends React.Component {
       cardImage: '',
       cardRare: 'normal',
       cardTrunfo: false,
+      hasTrunfo: false,
       isSaveButtonDisabled: true,
-      // savedCards: [],
+      savedCards: [],
     };
   }
 
+  // func que captura as mudanças nos campos do form
   onInputChange = ({ target }) => {
     const { name } = target;
     const value = target.type === 'checkbox' ? target.checked : target.value;
@@ -29,6 +31,7 @@ class App extends React.Component {
     });
   };
 
+  // validações do botão de Salvar
   validateFields = () => {
     const {
       cardName,
@@ -60,9 +63,65 @@ class App extends React.Component {
     return !allFields;
   };
 
-  // saveButton = (event) => {
-  //   const { name, value } = event.target;
-  // };
+  // limpa os campos após clicar no botão
+  clearFields = () => {
+    this.setState({
+      cardName: '',
+      cardDescription: '',
+      cardAttr1: 0,
+      cardAttr2: 0,
+      cardAttr3: 0,
+      cardImage: '',
+      cardRare: 'normal',
+      cardTrunfo: false,
+      isSaveButtonDisabled: true,
+    });
+  }
+
+  // salva os inputs em objetos
+  handleSubmit = () => {
+    const {
+      cardName,
+      cardDescription,
+      cardAttr1,
+      cardAttr2,
+      cardAttr3,
+      cardImage,
+      cardRare,
+      cardTrunfo,
+    } = this.state;
+
+    const cardObject = {
+      cardName: cardName,
+      cardDescription: cardDescription,
+      cardAttr1: cardAttr1,
+      cardAttr2: cardAttr2,
+      cardAttr3: cardAttr3,
+      cardImage: cardImage,
+      cardRare: cardRare,
+      cardTrunfo: cardTrunfo,
+    }
+
+    // coloca os objetos em um array 
+    this.setState({
+      savedCards: [...this.state.savedCards, cardObject]
+    });
+  }
+
+  // func chamada ao clicar o botão Salvar
+  onSaveButtonClick = () => {
+    this.clearFields();
+    this.handleSubmit();
+  };
+
+  //avalia se já há carta com super trunfo
+  trunfoCard = () => {
+    this.state.savedCards.some((card) => {
+      if (card.cardTrunfo === true) {
+        this.setState({ hasTrunfo: true })
+      }
+    });
+  }
 
   render() {
     const {
@@ -80,18 +139,29 @@ class App extends React.Component {
       <div>
         <h1>Tryunfo</h1>
         <Form
-          onInputChange={ this.onInputChange }
-          isSaveButtonDisabled={ isSaveButtonDisabled }
+          onInputChange={this.onInputChange}
+          onSaveButtonClick={this.onSaveButtonClick}
+          clearFields={this.clearFields}
+          trunfoCard={this.trunfoCard}
+          cardName={cardName}
+          cardDescription={cardDescription}
+          cardAttr1={cardAttr1}
+          cardAttr2={cardAttr2}
+          cardAttr3={cardAttr3}
+          cardImage={cardImage}
+          cardRare={cardRare}
+          cardTrunfo={cardTrunfo}
+          isSaveButtonDisabled={isSaveButtonDisabled}
         />
         <Card
-          cardName={ cardName }
-          cardDescription={ cardDescription }
-          cardAttr1={ cardAttr1 }
-          cardAttr2={ cardAttr2 }
-          cardAttr3={ cardAttr3 }
-          cardImage={ cardImage }
-          cardRare={ cardRare }
-          cardTrunfo={ cardTrunfo }
+          cardName={cardName}
+          cardDescription={cardDescription}
+          cardAttr1={cardAttr1}
+          cardAttr2={cardAttr2}
+          cardAttr3={cardAttr3}
+          cardImage={cardImage}
+          cardRare={cardRare}
+          cardTrunfo={cardTrunfo}
         />
       </div>
     );
