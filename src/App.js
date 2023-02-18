@@ -76,7 +76,7 @@ class App extends React.Component {
       cardTrunfo: false,
       isSaveButtonDisabled: true,
     });
-  }
+  };
 
   // salva os inputs em objetos
   handleSubmit = () => {
@@ -89,39 +89,49 @@ class App extends React.Component {
       cardImage,
       cardRare,
       cardTrunfo,
+
     } = this.state;
 
     const cardObject = {
-      cardName: cardName,
-      cardDescription: cardDescription,
-      cardAttr1: cardAttr1,
-      cardAttr2: cardAttr2,
-      cardAttr3: cardAttr3,
-      cardImage: cardImage,
-      cardRare: cardRare,
-      cardTrunfo: cardTrunfo,
-    }
+      cardName,
+      cardDescription,
+      cardAttr1,
+      cardAttr2,
+      cardAttr3,
+      cardImage,
+      cardRare,
+      cardTrunfo,
+    };
 
-    // coloca os objetos em um array 
+    // coloca os objetos/cards em um array
     this.setState({
-      savedCards: [...this.state.savedCards, cardObject]
+      savedCards: [...this.state.savedCards, cardObject],
     });
-  }
+  };
 
   // func chamada ao clicar o botão Salvar
   onSaveButtonClick = () => {
     this.clearFields();
     this.handleSubmit();
+    this.trunfoCard();
   };
 
-  //avalia se já há carta com super trunfo
+  // avalia se já há carta com super trunfo
   trunfoCard = () => {
-    this.state.savedCards.some((card) => {
+    const {
+      savedCards,
+      cardTrunfo,
+    } = this.state;
+
+    savedCards.filter((card) => {
       if (card.cardTrunfo === true) {
-        this.setState({ hasTrunfo: true })
+        return this.setState({ hasTrunfo: true });
       }
     });
-  }
+    if (savedCards.length === 0 && cardTrunfo === true) {
+      this.setState({ hasTrunfo: true });
+    }
+  };
 
   render() {
     const {
@@ -133,36 +143,55 @@ class App extends React.Component {
       cardImage,
       cardRare,
       cardTrunfo,
+      hasTrunfo,
+      savedCards,
       isSaveButtonDisabled,
     } = this.state;
     return (
       <div>
         <h1>Tryunfo</h1>
         <Form
-          onInputChange={this.onInputChange}
-          onSaveButtonClick={this.onSaveButtonClick}
-          clearFields={this.clearFields}
-          trunfoCard={this.trunfoCard}
-          cardName={cardName}
-          cardDescription={cardDescription}
-          cardAttr1={cardAttr1}
-          cardAttr2={cardAttr2}
-          cardAttr3={cardAttr3}
-          cardImage={cardImage}
-          cardRare={cardRare}
-          cardTrunfo={cardTrunfo}
-          isSaveButtonDisabled={isSaveButtonDisabled}
+          onInputChange={ this.onInputChange }
+          onSaveButtonClick={ this.onSaveButtonClick }
+          clearFields={ this.clearFields }
+          trunfoCard={ this.trunfoCard }
+          cardName={ cardName }
+          cardDescription={ cardDescription }
+          cardAttr1={ cardAttr1 }
+          cardAttr2={ cardAttr2 }
+          cardAttr3={ cardAttr3 }
+          cardImage={ cardImage }
+          cardRare={ cardRare }
+          cardTrunfo={ cardTrunfo }
+          hasTrunfo={ hasTrunfo }
+          isSaveButtonDisabled={ isSaveButtonDisabled }
         />
         <Card
-          cardName={cardName}
-          cardDescription={cardDescription}
-          cardAttr1={cardAttr1}
-          cardAttr2={cardAttr2}
-          cardAttr3={cardAttr3}
-          cardImage={cardImage}
-          cardRare={cardRare}
-          cardTrunfo={cardTrunfo}
+          cardName={ cardName }
+          cardDescription={ cardDescription }
+          cardAttr1={ cardAttr1 }
+          cardAttr2={ cardAttr2 }
+          cardAttr3={ cardAttr3 }
+          cardImage={ cardImage }
+          cardRare={ cardRare }
+          cardTrunfo={ cardTrunfo }
         />
+        <ul>
+          {savedCards.map((item, index) => (
+            <li key={ index }>
+              <Card
+                cardName={ item.cardName }
+                cardDescription={ item.cardDescription }
+                cardAttr1={ item.cardAttr1 }
+                cardAttr2={ item.cardAttr2 }
+                cardAttr3={ item.cardAttr3 }
+                cardImage={ item.cardImage }
+                cardRare={ item.cardRare }
+                cardTrunfo={ item.cardTrunfo }
+              />
+            </li>
+          ))}
+        </ul>
       </div>
     );
   }
