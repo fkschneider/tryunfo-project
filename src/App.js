@@ -89,7 +89,6 @@ class App extends React.Component {
       cardImage,
       cardRare,
       cardTrunfo,
-
     } = this.state;
 
     const cardObject = {
@@ -133,6 +132,26 @@ class App extends React.Component {
     }
   };
 
+  //botão de excluir
+  deleteCard = ({ target }) => {
+    const { name } = target;
+    const { 
+      savedCards, 
+      hasTrunfo
+    } = this.state;
+
+    const cardsLeft = savedCards.filter((element) => {
+     return element.cardName !== name
+    });
+    this.setState({ savedCards: cardsLeft });
+
+    cardsLeft.some((trunfo) => {
+      return trunfo.hasTrunfo === true;
+      }
+    );
+    this.setState({ hasTrunfo: false });
+  };
+
   render() {
     const {
       cardName,
@@ -155,6 +174,7 @@ class App extends React.Component {
           onSaveButtonClick={ this.onSaveButtonClick }
           clearFields={ this.clearFields }
           trunfoCard={ this.trunfoCard }
+          deleteCard={ this.deleteCard }
           cardName={ cardName }
           cardDescription={ cardDescription }
           cardAttr1={ cardAttr1 }
@@ -189,6 +209,14 @@ class App extends React.Component {
                 cardRare={ item.cardRare }
                 cardTrunfo={ item.cardTrunfo }
               />
+              <button
+                type="button"
+                data-testid="delete-button"
+                name={ item.cardName }
+                onClick={ this.deleteCard }
+              >
+                Excluir
+              </button>
             </li>
           ))}
         </ul>
