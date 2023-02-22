@@ -146,7 +146,7 @@ class App extends React.Component {
     this.setState({ hasTrunfo: false });
   };
 
-  getName = ({ target }) => {
+  filterByName = ({ target }) => {
     const { savedCards } = this.state;
     const { value } = target;
     // console.log(value);
@@ -154,13 +154,24 @@ class App extends React.Component {
     this.setState({ savedCards: chosenCard });
   };
 
-  getRarity = ({ target }) => {
+  filterByRarity = ({ target }) => {
     const { savedCards } = this.state;
     const { value } = target;
-    console.log(value);
-    const rareCard = savedCards.filter((card) => card.cardRare === value);
-    console.log(rareCard);
-    this.setState({ savedCards: rareCard });
+
+    const cardsByRarity = savedCards.filter((card) => {
+      return card.cardRare === value;
+    });
+    this.setState({ savedCards: cardsByRarity });
+
+    if (value === "todas") {
+      this.setState({ savedCards });
+    }
+
+    // savedCards.filter((card) => {
+    //   if (card.cardRare !== value) {
+    //     return this.setState({ savedCards: [] });
+    //   }
+    // });
   };
 
   render() {
@@ -181,51 +192,52 @@ class App extends React.Component {
       <div>
         <h1>Tryunfo</h1>
         <Form
-          onInputChange={ this.onInputChange }
-          onSaveButtonClick={ this.onSaveButtonClick }
-          clearFields={ this.clearFields }
-          trunfoCard={ this.trunfoCard }
-          deleteCard={ this.deleteCard }
-          getName={ this.getName }
-          cardName={ cardName }
-          cardDescription={ cardDescription }
-          cardAttr1={ cardAttr1 }
-          cardAttr2={ cardAttr2 }
-          cardAttr3={ cardAttr3 }
-          cardImage={ cardImage }
-          cardRare={ cardRare }
-          cardTrunfo={ cardTrunfo }
-          hasTrunfo={ hasTrunfo }
-          isSaveButtonDisabled={ isSaveButtonDisabled }
+          onInputChange={this.onInputChange}
+          onSaveButtonClick={this.onSaveButtonClick}
+          clearFields={this.clearFields}
+          trunfoCard={this.trunfoCard}
+          deleteCard={this.deleteCard}
+          filterByName={this.filterByName}
+          filterByRarity={this.filterByRarity}
+          cardName={cardName}
+          cardDescription={cardDescription}
+          cardAttr1={cardAttr1}
+          cardAttr2={cardAttr2}
+          cardAttr3={cardAttr3}
+          cardImage={cardImage}
+          cardRare={cardRare}
+          cardTrunfo={cardTrunfo}
+          hasTrunfo={hasTrunfo}
+          isSaveButtonDisabled={isSaveButtonDisabled}
         />
         <Card
-          cardName={ cardName }
-          cardDescription={ cardDescription }
-          cardAttr1={ cardAttr1 }
-          cardAttr2={ cardAttr2 }
-          cardAttr3={ cardAttr3 }
-          cardImage={ cardImage }
-          cardRare={ cardRare }
-          cardTrunfo={ cardTrunfo }
+          cardName={cardName}
+          cardDescription={cardDescription}
+          cardAttr1={cardAttr1}
+          cardAttr2={cardAttr2}
+          cardAttr3={cardAttr3}
+          cardImage={cardImage}
+          cardRare={cardRare}
+          cardTrunfo={cardTrunfo}
         />
         <ul>
           {savedCards.map((item, index) => (
-            <li key={ index }>
+            <li key={index}>
               <Card
-                cardName={ item.cardName }
-                cardDescription={ item.cardDescription }
-                cardAttr1={ item.cardAttr1 }
-                cardAttr2={ item.cardAttr2 }
-                cardAttr3={ item.cardAttr3 }
-                cardImage={ item.cardImage }
-                cardRare={ item.cardRare }
-                cardTrunfo={ item.cardTrunfo }
+                cardName={item.cardName}
+                cardDescription={item.cardDescription}
+                cardAttr1={item.cardAttr1}
+                cardAttr2={item.cardAttr2}
+                cardAttr3={item.cardAttr3}
+                cardImage={item.cardImage}
+                cardRare={item.cardRare}
+                cardTrunfo={item.cardTrunfo}
               />
               <button
                 type="button"
                 data-testid="delete-button"
-                name={ item.cardName }
-                onClick={ this.deleteCard }
+                name={item.cardName}
+                onClick={this.deleteCard}
               >
                 Excluir
               </button>
