@@ -115,7 +115,7 @@ class Form extends React.Component {
                 checked={ cardTrunfo }
                 onChange={ onInputChange }
               />
-              </label>}
+            </label>}
           <button
             type="button"
             data-testid="save-button"
