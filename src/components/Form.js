@@ -17,6 +17,8 @@ class Form extends React.Component {
       onInputChange,
       onSaveButtonClick,
       handleSubmit,
+      getName,
+      getRarity,
     } = this.props;
 
     return (
@@ -113,7 +115,7 @@ class Form extends React.Component {
                 checked={ cardTrunfo }
                 onChange={ onInputChange }
               />
-            </label>}
+              </label>}
           <button
             type="button"
             data-testid="save-button"
@@ -122,8 +124,29 @@ class Form extends React.Component {
             onClick={ onSaveButtonClick }
           >
             Salvar
-
           </button>
+          <label htmlFor="filterName">
+            Filtrar por nome:
+            <input
+              type="text"
+              data-testid="name-filter"
+              name="filterName"
+              onChange={ getName }
+            />
+          </label>
+          {/* <label htmlFor="rare-filter">
+            Filtrar por raridade
+            <select
+              id="rare-filter"
+              data-testid="name-filter"
+              name="rareFilter"
+              onChange={ getRarity }
+            >
+              <option value="normal">Normal</option>
+              <option value="raro">Raro</option>
+              <option value="muito raro">Muito raro</option>
+            </select>
+          </label> */}
         </form>
       </div>
     );
@@ -144,6 +167,7 @@ Form.propTypes = {
   onInputChange: PropTypes.func.isRequired,
   onSaveButtonClick: PropTypes.func.isRequired,
   handleSubmit: PropTypes.func.isRequired,
+  getName: PropTypes.func.isRequired,
 };
 
 export default Form;

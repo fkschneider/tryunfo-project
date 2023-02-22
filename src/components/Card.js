@@ -12,7 +12,9 @@ class Card extends React.Component {
       cardImage,
       cardRare,
       cardTrunfo,
+      getName,
     } = this.props;
+
     return (
       <div>
         <h1 data-testid="name-card">
@@ -35,6 +37,9 @@ class Card extends React.Component {
           <p data-testid="rare-card">{cardRare}</p>
           { cardTrunfo && <p data-testid="trunfo-card">Super Trunfo!</p> }
         </section>
+        <ul>
+          <li />
+        </ul>
       </div>
     );
   }

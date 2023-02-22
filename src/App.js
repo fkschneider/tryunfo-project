@@ -132,24 +132,35 @@ class App extends React.Component {
     }
   };
 
-  //botão de excluir
+  // botão de excluir
   deleteCard = ({ target }) => {
     const { name } = target;
-    const { 
-      savedCards, 
-      hasTrunfo
+    const {
+      savedCards,
     } = this.state;
 
-    const cardsLeft = savedCards.filter((element) => {
-     return element.cardName !== name
-    });
+    const cardsLeft = savedCards.filter((element) => element.cardName !== name);
     this.setState({ savedCards: cardsLeft });
 
-    cardsLeft.some((trunfo) => {
-      return trunfo.hasTrunfo === true;
-      }
-    );
+    cardsLeft.some((trunfo) => trunfo.hasTrunfo === true);
     this.setState({ hasTrunfo: false });
+  };
+
+  getName = ({ target }) => {
+    const { savedCards } = this.state;
+    const { value } = target;
+    // console.log(value);
+    const chosenCard = savedCards.filter((card) => card.cardName.includes(value));
+    this.setState({ savedCards: chosenCard });
+  };
+
+  getRarity = ({ target }) => {
+    const { savedCards } = this.state;
+    const { value } = target;
+    console.log(value);
+    const rareCard = savedCards.filter((card) => card.cardRare === value);
+    console.log(rareCard);
+    this.setState({ savedCards: rareCard });
   };
 
   render() {
@@ -175,6 +186,7 @@ class App extends React.Component {
           clearFields={ this.clearFields }
           trunfoCard={ this.trunfoCard }
           deleteCard={ this.deleteCard }
+          getName={ this.getName }
           cardName={ cardName }
           cardDescription={ cardDescription }
           cardAttr1={ cardAttr1 }
