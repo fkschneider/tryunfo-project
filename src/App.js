@@ -20,7 +20,7 @@ class App extends React.Component {
     };
   }
 
-  // func que captura as mudanças nos campos do form
+  // func que captura os inputs nos campos do form
   onInputChange = ({ target }) => {
     const { name } = target;
     const value = target.type === 'checkbox' ? target.checked : target.value;
@@ -123,9 +123,9 @@ class App extends React.Component {
       cardTrunfo,
     } = this.state;
 
-    savedCards.filter((card) => {
+    savedCards.forEach((card) => {
       if (card.cardTrunfo === true) {
-        return this.setState({ hasTrunfo: true });
+        this.setState({ hasTrunfo: true });
       }
     });
     if (savedCards.length === 0 && cardTrunfo === true) {
